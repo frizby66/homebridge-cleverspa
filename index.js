@@ -20,13 +20,14 @@ function Thermostat (log, config) {
 
   this.listener = config.listener || false
   this.port = config.port || 2000
-  this.requestArray = ['targetHeatingCoolingState', 'targetTemperature', 'coolingThresholdTemperature', 'heatingThresholdTemperature']
+  this.requestArray = ['Current_temperature', 'Temperature_setup', 'coolingThresholdTemperature', 'heatingThresholdTemperature']
 
   this.manufacturer = config.manufacturer || packageJson.author.name
   this.serial = config.serial || this.apiroute
   this.model = config.model || packageJson.name
   this.firmware = config.firmware || packageJson.version
 
+  this.did = config.did || null
   this.username = config.username || null
   this.password = config.password || null
   this.timeout = config.timeout || 3000
@@ -92,7 +93,7 @@ Thermostat.prototype = {
   },
 
   _getStatus: function (callback) {
-    var url = this.apiroute + '/status'
+    var url = this.apiroute + 'devdata/KIL8oKMake6k38gg5ZeJDG/latest'
     this.log.debug('Getting status: %s', url)
 
     this._httpRequest(url, '', this.http_method, function (error, response, responseBody) {
@@ -104,9 +105,9 @@ Thermostat.prototype = {
         this.log.debug('Device response: %s', responseBody)
         var json = JSON.parse(responseBody)
         this.service.getCharacteristic(Characteristic.TargetTemperature).updateValue(json.targetTemperature)
-        this.log.debug('Updated TargetTemperature to: %s', json.targetTemperature)
+        this.log.debug('Updated Temperature_setup to: %s', json.targetTemperature)
         this.service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(json.currentTemperature)
-        this.log.debug('Updated CurrentTemperature to: %s', json.currentTemperature)
+        this.log.debug('Updated Current_temperature to: %s', json.currentTemperature)
         this.service.getCharacteristic(Characteristic.TargetHeatingCoolingState).updateValue(json.targetHeatingCoolingState)
         this.log.debug('Updated TargetHeatingCoolingState to: %s', json.targetHeatingCoolingState)
         this.service.getCharacteristic(Characteristic.CurrentHeatingCoolingState).updateValue(json.currentHeatingCoolingState)
