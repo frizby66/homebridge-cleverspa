@@ -20,7 +20,7 @@ function Thermostat (log, config) {
 
   this.listener = config.listener || false
   this.port = config.port || 2000
-  this.requestArray = ['Current_temperature', 'Temperature_setup', 'coolingThresholdTemperature', 'heatingThresholdTemperature']
+  this.requestArray = ['.Current_temperature.', 'Temperature_setup', 'coolingThresholdTemperature', 'heatingThresholdTemperature']
 
   this.manufacturer = config.manufacturer || packageJson.author.name
   this.serial = config.serial || this.apiroute
