@@ -28,15 +28,15 @@ function Thermostat (log, config) {
   this.firmware = config.firmware || packageJson.version
 
   this.did = config.did || null
-  this.username = config.username || null
-  this.password = config.password || null
+this.username = config.username || null
+this.password = config.password || null
   this.timeout = config.timeout || 3000
   this.http_method = config.http_method || 'GET'
 
   this.temperatureThresholds = config.temperatureThresholds || false
   this.heatOnly = config.heatOnly || false
 
-  this.currentRelativeHumidity = config.currentRelativeHumidity || false
+//  this.currentRelativeHumidity = config.currentRelativeHumidity || false
   this.temperatureDisplayUnits = config.temperatureDisplayUnits || 0
   this.maxTemp = config.maxTemp || 30
   this.minTemp = config.minTemp || 15
@@ -104,10 +104,10 @@ Thermostat.prototype = {
       } else {
         this.log.debug('Device response: %s', responseBody)
         var json = JSON.parse(responseBody)
-        this.service.getCharacteristic(Characteristic.TargetTemperature).updateValue(json.targetTemperature)
-        this.log.debug('Updated Temperature_setup to: %s', json.targetTemperature)
-        this.service.getCharacteristic(Characteristic.CurrentTemperature).updateValue(json.currentTemperature)
-        this.log.debug('Updated Current_temperature to: %s', json.currentTemperature)
+        this.service.getCharacteristic(Characteristic.Temperature_setup).updateValue(json.Temperature_setup)
+        this.log.debug('Updated Temperature_setup to: %s', json.Temperature_setup)
+        this.service.getCharacteristic(Characteristic.Current_temperature).updateValue(json.Current_temperature)
+        this.log.debug('Updated Current_temperature to: %s', json.Current_temperature)
         this.service.getCharacteristic(Characteristic.TargetHeatingCoolingState).updateValue(json.targetHeatingCoolingState)
         this.log.debug('Updated TargetHeatingCoolingState to: %s', json.targetHeatingCoolingState)
         this.service.getCharacteristic(Characteristic.CurrentHeatingCoolingState).updateValue(json.currentHeatingCoolingState)
